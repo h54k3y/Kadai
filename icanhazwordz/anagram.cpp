@@ -21,21 +21,21 @@ int main(){
 		dictionary_map[sorted_word]=input_word;
 		++words_cnt;
 	}
-	cout<<words_cnt<<" words in dictionary"<<endl;
+	cout<<words_cnt<<" words in \"dictionary.txt"<<"\" ."<<endl;
 	cout<<dictionary_map.size()<<" words in maps"<<endl;
 	for(int i=0;i<10;i++){
-		cout<<"Please input query"<<endl;
+		cout<<"Please input the query"<<endl;
 		string input_query;
 		cin>>input_query;
 		string sorted_query=input_query;
 		string anagram;
 		sort(sorted_query.begin(),sorted_query.end());
 		if(dictionary_map.count(sorted_query)!=0 && dictionary_map[sorted_query]!=input_query){
-			cout<<"The anagram of "<<input_query<<" is"<<endl;
+			cout<<"The anagram of \""<<input_query<<"\" is"<<endl;
 			cout<<dictionary_map[sorted_query]<<endl;
 		}
 		else{
-			cout<<"There is no anagram of "<<input_query<<endl;
+			cout<<"There is no anagram of \""<<input_query<<"\" ."<<endl;
 		}
 	}
 	return 0;
