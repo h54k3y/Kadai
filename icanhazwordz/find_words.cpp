@@ -81,13 +81,13 @@ int FindWords(const vector<pair<string,string> > dictionary_vector, const string
 				for(int p=0;p<27;p++){
 					for(int ip=0;ip<dictionary_vector[i].second.size();ip++){
 						if(points[p]==dictionary_vector[i].second[ip]){
-							if(ip<13){
+							if(ip<12){
 								point+=1;
 							}
-							else if(ip<22){
+							else if(ip<21){
 								point+=2;
 							}
-							else if(ip<27){
+							else if(ip<26){
 								point+=3;
 							}
 							
