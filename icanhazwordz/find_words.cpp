@@ -57,7 +57,6 @@ int FindWords(const vector<pair<string,string> > dictionary_vector, const string
 	char two_point[10]={'c','f','h','l','m','p','v','w','y'};
 	char three_point[6]={'j','k','q','x','z'};
 	int max_point=0;
-	int max_size=0;
 	string sorted_query=input_query;
 	sort(sorted_query.begin(),sorted_query.end());
 	for(int i=0;i<dictionary_vector.size();i++){
@@ -75,42 +74,40 @@ int FindWords(const vector<pair<string,string> > dictionary_vector, const string
 				break;
 			}
 			else if(j==dictionary_vector[i].first.size()-1){
-				if(max_size==0){
+				if(max_point==0){
 					cout<<"Congrats! I was able to find the word in \""<<input<<"\" . Which is"<<endl;	
 				}
 				cout<<dictionary_vector[i].second<<", ";
 				//Count and update the points
-				if(dictionary_vector[i].second.size()>=max_size){
-					int point=0;
-					for(int p=0;p<13;p++){
-						for(int dp=0;dp<dictionary_vector[i].second.size();dp++){
-							if(one_point[p]==dictionary_vector[i].second[dp]){
-								point+=1;
-							}
+				int point=0;
+				for(int p=0;p<13;p++){
+					for(int dp=0;dp<dictionary_vector[i].second.size();dp++){
+						if(one_point[p]==dictionary_vector[i].second[dp]){
+							point+=1;
 						}
-					}
-					for(int p=0;p<10;p++){
-						for(int dp=0;dp<dictionary_vector[i].second.size();dp++){
-							if(two_point[p]==dictionary_vector[i].second[dp]){
-								point+=2;
-							}
-						}
-					}
-					for(int p=0;p<6;p++){
-						for(int dp=0;dp<dictionary_vector[i].second.size();dp++){
-							if(three_point[p]==dictionary_vector[i].second[dp]){
-								point+=3;
-							}
-						}
-					}
-					point++;
-					point*=point;
-					if(point>max_point){
-						max_point=point;
-						max_size=dictionary_vector[i].second.size();
-						answer_word=dictionary_vector[i].second;
 					}
 				}
+				for (int p=0;p<10;++p) {
+					for(int dp=0;dp<dictionary_vector[i].second.size();dp++){
+						if(two_point[p]==dictionary_vector[i].second[dp]){
+							point+=2;
+						}
+					}
+				}
+				for(int p=0;p<6;p++){
+					for(int dp=0;dp<dictionary_vector[i].second.size();dp++){
+						if(three_point[p]==dictionary_vector[i].second[dp]){
+							point+=3;
+						}
+					}
+				}
+				point++;
+				point*=point;
+				if(point>max_point){
+					max_point=point;
+					answer_word=dictionary_vector[i].second;
+				}
+				
 			}
 		}
 	}
