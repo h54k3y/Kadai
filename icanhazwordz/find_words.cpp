@@ -53,9 +53,7 @@ void SetDictionary(vector<pair<string,string> > &dictionary_vector){
 }
 
 int FindWords(const vector<pair<string,string> > dictionary_vector, const string input_query, const string input, string &answer_word){
-	char one_point[15]={'a','b','d','e','g','i','n','o','r','s','t','u'};
-	char two_point[10]={'c','f','h','l','m','p','v','w','y'};
-	char three_point[6]={'j','k','q','x','z'};
+	char points[27]={'a','b','d','e','g','i','n','o','r','s','t','u','c','f','h','l','m','p','v','w','y','j','k','q','x','z'};
 	int max_point=0;
 	string sorted_query=input_query;
 	sort(sorted_query.begin(),sorted_query.end());
@@ -80,24 +78,19 @@ int FindWords(const vector<pair<string,string> > dictionary_vector, const string
 				cout<<dictionary_vector[i].second<<", ";
 				//Count and update the points
 				int point=0;
-				for(int p=0;p<13;p++){
-					for(int dp=0;dp<dictionary_vector[i].second.size();dp++){
-						if(one_point[p]==dictionary_vector[i].second[dp]){
-							point+=1;
-						}
-					}
-				}
-				for (int p=0;p<10;++p) {
-					for(int dp=0;dp<dictionary_vector[i].second.size();dp++){
-						if(two_point[p]==dictionary_vector[i].second[dp]){
-							point+=2;
-						}
-					}
-				}
-				for(int p=0;p<6;p++){
-					for(int dp=0;dp<dictionary_vector[i].second.size();dp++){
-						if(three_point[p]==dictionary_vector[i].second[dp]){
-							point+=3;
+				for(int p=0;p<27;p++){
+					for(int ip=0;ip<dictionary_vector[i].second.size();ip++){
+						if(points[p]==dictionary_vector[i].second[ip]){
+							if(ip<14){
+								point+=1;
+							}
+							else if(ip<22){
+								point+=2;
+							}
+							else if(ip<27){
+								point+=3;
+							}
+							
 						}
 					}
 				}
