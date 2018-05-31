@@ -11,6 +11,14 @@ using namespace std;
 void SetDictionary(vector<pair<string,string> > &dictionary_vector);
 int FindWords(const vector<pair<string,string> > dictionary_vector, const string input_query, const string input, string &answer_word);
 
+void ReplaceAll(const string& from, const string& to, string& input_word) {
+	string::size_type pos = input_word.find(from);
+	while(pos != string::npos){
+    	input_word.replace(pos, from.size(), to);
+    	pos = input_word.find(from, pos + to.size());
+	}	
+}
+
 int main(){
 	vector<pair<string,string> > dictionary_vector;
 	SetDictionary(dictionary_vector);
@@ -22,6 +30,7 @@ int main(){
 		cin>>input;
 		input_query=input;
 		transform(input_query.begin(),input_query.end(),input_query.begin(), ::tolower);
+		ReplaceAll("qu", "q", input_query);
 		int max_point=FindWords(dictionary_vector,input_query,input,answer_word);
 		if(max_point==0){
 			cout<<"Oh, Sorry! I couldn't find a word in \""<<input<<"\" ."<<endl;
@@ -29,12 +38,14 @@ int main(){
 		else{
 			cout<<endl;
 			cout<<"The word with the highest score ("<<max_point<<" poins) in \""<<input<<"\" is"<<endl;
+			ReplaceAll("q", "qu", answer_word);
 			transform(answer_word.begin(),answer_word.end(),answer_word.begin(), ::toupper);
 			cout<<answer_word<<endl;
 		}
 	}
 	return 0;
 }
+
 
 void SetDictionary(vector<pair<string,string> > &dictionary_vector){
 	ifstream ifs("dictionary.txt");
@@ -43,6 +54,7 @@ void SetDictionary(vector<pair<string,string> > &dictionary_vector){
 	int words_cnt=0;
 	while(getline(ifs,input_word)){
 		input_word.erase(input_word.size()-1);
+		ReplaceAll("qu", "q", input_word);
 		sorted_word=input_word;
 		sort(sorted_word.begin(),sorted_word.end());
 		dictionary_vector.push_back(make_pair(sorted_word,input_word));
