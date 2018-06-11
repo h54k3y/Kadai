@@ -9,7 +9,9 @@
 using namespace std;
 
 void SetDictionary(map<string,string> &dictionary_map);
+
 bool MakeAnagram(const map<string,string>& dictionary_map,const string input_query, string &anagram);
+
 
 int main(){
 	map<string,string> dictionary_map;
