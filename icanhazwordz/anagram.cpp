@@ -7,36 +7,60 @@
 #include <fstream>
 
 using namespace std;
-int main(){
-	ifstream ifs("dictionary.txt");
-	map<string,string> dictionary_map;
 
+void SetDictionary(map<string,string> &dictionary_map);
+bool MakeAnagram(const map<string,string>& dictionary_map,const string input_query, string &anagram);
+
+int main(){
+	map<string,string> dictionary_map;
+	SetDictionary(dictionary_map);
+	for(int i=1;i<10;i++){
+		cout<<i<<":"<<"Please input the query"<<endl;
+		string input;
+		string input_query;
+		string anagram;
+		cin>>input;
+		input_query=input;
+		transform(input_query.begin(),input_query.end(),input_query.begin(), ::tolower);
+		bool find=MakeAnagram(dictionary_map,input_query,anagram);
+		if(find){
+			cout<<"Congrats! I was able to find the word in \""<<input<<"\" . Which is"<<endl;
+			transform(anagram.begin(),anagram.end(),anagram.begin(), ::toupper);
+			cout<<anagram<<endl;
+		}
+		else{
+			cout<<"Oh, Sorry! I couldn't find a word in \""<<input<<"\" ."<<endl;
+		}
+	}
+	return 0;
+}
+
+void SetDictionary(map<string,string> &dictionary_map){
+	ifstream ifs("dictionary.txt");
 	string input_word;
 	string sorted_word;
 	int words_cnt=0;
 	while(getline(ifs,input_word)){
-		input_word.erase(input_word.size()-1);
-		sorted_word=input_word;
-		sort(sorted_word.begin(),sorted_word.end());
-		dictionary_map[sorted_word]=input_word;
-		++words_cnt;
+			input_word.erase(input_word.size()-1);
+			sorted_word=input_word;
+			sort(sorted_word.begin(),sorted_word.end());
+			dictionary_map[sorted_word]=input_word;
+			words_cnt++;
 	}
-	cout<<words_cnt<<" words in dictionary"<<endl;
+	cout<<words_cnt<<" words in \"dictionary.txt"<<"\" ."<<endl;
 	cout<<dictionary_map.size()<<" words in maps"<<endl;
-	for(int i=0;i<10;i++){
-		cout<<"Please input query"<<endl;
-		string input_query;
-		cin>>input_query;
-		string sorted_query=input_query;
-		string anagram;
-		sort(sorted_query.begin(),sorted_query.end());
-		if(dictionary_map.count(sorted_query)!=0 && dictionary_map[sorted_query]!=input_query){
-			cout<<"The anagram of "<<input_query<<" is"<<endl;
-			cout<<dictionary_map[sorted_query]<<endl;
-		}
-		else{
-			cout<<"There is no anagram of "<<input_query<<endl;
-		}
+	return;
+}
+
+bool MakeAnagram(const map<string,string>& dictionary_map,const string input_query, string &anagram){
+	string sorted_query=input_query;
+	sort(sorted_query.begin(),sorted_query.end());
+	if(dictionary_map.count(sorted_query)!=0 && dictionary_map.at(sorted_query)!=input_query){
+		anagram=dictionary_map.at(sorted_query);
+		return true;
 	}
-	return 0;
+	else{
+		return false;
+	}
+
 }
