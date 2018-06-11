@@ -9,7 +9,9 @@
 using namespace std;
 
 void SetDictionary(map<string,string> &dictionary_map);
-bool MakeAnagram(const map<string,string> dictionary_map,const string input_query, string &anagram);
+
+bool MakeAnagram(const map<string,string>& dictionary_map,const string input_query, string &anagram);
+
 
 int main(){
 	map<string,string> dictionary_map;
@@ -52,7 +54,7 @@ void SetDictionary(map<string,string> &dictionary_map){
 	return;
 }
 
-bool MakeAnagram(const map<string,string> dictionary_map,const string input_query, string &anagram){
+bool MakeAnagram(const map<string,string>& dictionary_map,const string input_query, string &anagram){
 	string sorted_query=input_query;
 	sort(sorted_query.begin(),sorted_query.end());
 	if(dictionary_map.count(sorted_query)!=0 && dictionary_map.at(sorted_query)!=input_query){
