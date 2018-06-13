@@ -107,6 +107,11 @@ def runTest():
     print "==== Test started! ===="
     test("1+2", 3)
     test("1.0+2.1-3", 0.1)
+    test("4*3+2", 14)
+    test("4.3/1", 4.3)
+    test("4/2", 2)
+    test("12*4", 48)
+    test("6*12/3+12*4", 72)
     print "==== Test finished! ====\n"
 
 runTest()
