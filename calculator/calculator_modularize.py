@@ -31,6 +31,25 @@ def readDev(line, index):
     token = {'type': 'DEV'}
     return token, index + 1
 
+def Bracket(line):
+    index = 0
+    while index < len(line) :
+        if line[index] == '(':
+            line = line.replace('(', '', 1)
+            cnt = len(line) - 1
+            while  cnt > index :
+                if line[cnt] == ')':
+                    line_bracket = line[index:cnt]
+                    in_bracket = Calculator(line_bracket)
+                    line_insert = str(in_bracket) 
+                    line_replace = line_bracket + ')'
+                    line = line.replace(line_replace, line_insert, 1)
+                    return line
+                cnt -= 1
+        index += 1
+    return line
+    
+
 def tokenize(line):
     tokens = []
     index = 0
@@ -92,10 +111,14 @@ def evaluate(tokens):
         index += 1
     return answer
 
+def Calculator(line):
+    line = Bracket(line)
+    tokens = tokenize(line)
+    answer = evaluate(tokens)
+    return answer
 
 def test(line, expectedAnswer):
-    tokens = tokenize(line)
-    actualAnswer = evaluate(tokens)
+    actualAnswer = Calculator(line)
     if abs(actualAnswer - expectedAnswer) < 1e-8:
         print "PASS! (%s = %f)" % (line, expectedAnswer)
     else:
@@ -112,6 +135,10 @@ def runTest():
     test("4/2", 2)
     test("12*4", 48)
     test("6*12/3+12*4", 72)
+    test("2+(2+3)", 7)
+    test("3+(3*4+(3+2))", 20)
+    test("2+3*(4+(1+2))", 23)
+    test("42/(2*(1+(1+2)+3))", 3)
     print "==== Test finished! ====\n"
 
 runTest()
@@ -119,6 +146,5 @@ runTest()
 while True:
     print '> ',
     line = raw_input()
-    tokens = tokenize(line)
-    answer = evaluate(tokens)
+    answer = Calculator(line)
     print "answer = %f\n" % answer
