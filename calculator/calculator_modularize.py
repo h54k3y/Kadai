@@ -44,7 +44,7 @@ def tokenize(line):
         elif line[index] == '*':
             (token, index) = readMulti(line, index)
         elif line[index] == '/':
-            (token, index) == readDev(line, index)
+            (token, index) = readDev(line, index)
         else:
             print 'Invalid character found: ' + line[index]
             exit(1)
@@ -56,16 +56,37 @@ def evaluate(tokens):
     answer = 0
     tokens.insert(0, {'type': 'PLUS'}) # Insert a dummy '+' token
     index = 1
+    while index < len(tokens) - 1:
+        if tokens[index + 1]['type'] == 'MULTI' or tokens[index + 1]['type'] == 'DEV':
+            pre_answer = tokens[index]['number']
+            tokens[index]['number'] = 0
+            while index < len(tokens):
+                if index == len(tokens) - 1 :
+                    tokens[index]['number'] = pre_answer
+                    break;
+                elif tokens[index]['type'] == 'NUMBER':
+                    if tokens[index + 1]['type'] == 'MULTI':
+                        pre_answer *= tokens[index + 2]['number']
+                    elif tokens[index + 1]['type'] == 'DEV':
+                        pre_answer /= float(tokens[index + 2]['number'])
+                    elif tokens[index + 1]['type'] == 'MINUS' or tokens[index + 1]['type'] == 'PLUS':
+                        tokens[index]['number'] = pre_answer
+                        break;
+                    else:
+                        print 'Invalid syntax'
+                    tokens[index + 1]['type'] = 'PLUS'
+                    tokens[index + 2]['number'] = 0
+                index += 1
+        index += 1
+    index = 1
     while index < len(tokens):
         if tokens[index]['type'] == 'NUMBER':
             if tokens[index - 1]['type'] == 'PLUS':
                 answer += tokens[index]['number']
             elif tokens[index - 1]['type'] == 'MINUS':
                 answer -= tokens[index]['number']
-            elif tokens[index - 1]['type'] == 'MULTI':
-                answer *= tokens[index]['number']
-            elif tokens[index -1]['type'] == 'DEV':
-                answer /= tokens[index]['number']
+            elif tokens[index - 1]['type'] == 'MULTI' or tokens[index - 1]['type'] == 'DEV':
+                    print 'Calculating PLUS and MINUS'
             else:
                 print 'Invalid syntax'
         index += 1
